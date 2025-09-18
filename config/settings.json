@@ -1,0 +1,70 @@
+{
+  "api": {
+    "enterprise_url": "https://thongtindoanhnghiep.co/api/company",
+    "vss_url": "http://vssapp.teca.vn:8088",
+    "timeout": 30,
+    "connection_timeout": 10,
+    "max_retries": 3,
+    "retry_delay": 1.0
+  },
+  "processing": {
+    "max_workers": 4,
+    "batch_size": 50,
+    "rate_limit": {
+      "max_requests_per_minute": 15,
+      "window_seconds": 60
+    }
+  },
+  "cache": {
+    "enabled": true,
+    "ttl": 300,
+    "max_size": 1000
+  },
+  "circuit_breaker": {
+    "failure_threshold": 5,
+    "recovery_timeout": 60,
+    "half_open_max_calls": 3
+  },
+  "logging": {
+    "level": "DEBUG",
+    "file": "logs/vss_integration.log",
+    "max_size": "10MB",
+    "backup_count": 5,
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  },
+  "data": {
+    "input_dir": "data/input",
+    "output_dir": "data/output",
+    "reports_dir": "reports",
+    "backup_dir": "data/backup"
+  },
+  "monitoring": {
+    "enabled": true,
+    "metrics_interval": 30,
+    "health_check_interval": 60,
+    "alert_thresholds": {
+      "error_rate": 0.1,
+      "response_time": 5.0,
+      "memory_usage": 0.8
+    }
+  },
+  "security": {
+    "enable_proxy": false,
+    "proxy_config": {
+      "http": null,
+      "https": null
+    },
+    "user_agent": "VSS-Integration-System/2.0.0",
+    "headers": {
+      "Accept": "application/json,text/html,application/xhtml+xml,*/*;q=0.9",
+      "Accept-Language": "vi-VN,vi;q=0.9,en;q=0.8",
+      "Connection": "keep-alive",
+      "Cache-Control": "no-cache"
+    }
+  },
+  "web": {
+    "port": 5000,
+    "debug": false,
+    "host": "0.0.0.0"
+  }
+}

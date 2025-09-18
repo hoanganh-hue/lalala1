@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  vss-integration:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - VSS_LOG_LEVEL=INFO
+      - VSS_MAX_WORKERS=4
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./reports:/app/reports
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:5000/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Future: Add Redis service
+  # redis:
+  #   image: redis:7-alpine
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_data:/data
+  #   restart: unless-stopped
+
+  # Future: Add PostgreSQL service
+  # postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_DB: vss_integration
+  #     POSTGRES_USER: vss_user
+  #     POSTGRES_PASSWORD: vss_password
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+# volumes:
+#   redis_data:
+#   postgres_data:
